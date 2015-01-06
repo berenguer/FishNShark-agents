@@ -13,6 +13,9 @@ public class Fish extends Agent {
         
     }
     
-    
+    @Override
+    public String toString() {
+        return "F";
+    }
 
 }

@@ -1,10 +1,12 @@
 package main;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 
 public class Environnement {
     
-    public int[][] grid;
+    public Agent[][] grid;
     
     public int nbFish;
     
@@ -21,12 +23,12 @@ public class Environnement {
                 throw new NumberOfAgentsExceedSizeException();
             }
             else {
-                this.grid = new int[size][size];
+                this.grid = new Agent[size][size];
                 for (int i=0;i<size;i++)
                 {
                     for (int j=0;j<size;j++)
                     {
-                        this.grid[i][j]= -1;
+                        this.grid[i][j]= null;
                     }
                 }
                 this.nbFish = nbFish;
@@ -40,39 +42,65 @@ public class Environnement {
         }
     }
     
+    /**
+     * Find random a free position (without any agent) into the grid.
+     * @return
+     */
+    public int[] findAvailablePosition() {
+        int[] result = new int[2];
+        
+        // find random X and Y positions
+        int posX_random = (int)Math.round(Math.random() * ( this.grid.length-1 ));
+        int posY_random = (int)Math.round(Math.random() * ( this.grid.length-1 ));
+        
+        boolean positionAvailable = false;
+        
+        // find a random position free if still available
+        while (!positionAvailable) {
+            if (this.grid[posX_random][posY_random] == null) {
+                result[0] = posX_random;
+                result[1] = posY_random;
+                return result;
+                
+            } else {
+                posX_random = (int)Math.round(Math.random() * ( this.grid.length-1 ));
+                posY_random = (int)Math.round(Math.random() * ( this.grid.length-1 ));
+            }
+        }
+        return null;
+    }
+    
     public void initiateGrid() {
         int nbFish_count = nbFish;
         int nbShark_count = nbShark;
-        
-        
-        
-        int debugCount = 0;
-        
-        while ((nbFish_count | nbShark_count) > 0) {
-            int posX_random = (int)Math.round(Math.random() * ( this.grid.length-1 ));
-            int posY_random = (int)Math.round(Math.random() * ( this.grid.length-1 ));
-            
-            // random 0 place a fish, and for the value 1 place a shark
+
+        // place agents into the grid
+        while ( (nbFish_count | nbShark_count) > 0 ) {
+
+            // random = 0 place a fish or random = 1 place a shark
             int fishOrShark = (int)Math.round(Math.random() * ( 1 ));
             
-            if ((fishOrShark == 0) && (nbFish_count > 0) && (this.grid[posX_random][posY_random] == -1)) {
-                System.out.println("0");
-                Fish fish = new Fish(posX_random, posY_random, 3, this);
-                this.agents.add(fish);
+            Agent agent;
+            int[] availablePosition = findAvailablePosition();
+            int posX =  availablePosition[0];
+            int posY =  availablePosition[1];
+            
+            // create a fish, put it the grid, and referenced it the lists of agents
+            if ( (fishOrShark == 0) && (nbFish_count > 0) ) {
+                agent = new Fish(posX, posY, 1, this);
+                this.agents.add(agent);
+                this.grid[posX][posY] = agent;
                 nbFish_count--;
             }
-            else if ((fishOrShark == 1) && (nbShark_count > 0) && (this.grid[posX_random][posY_random] == -1)) {
-                System.out.println("1");
-                Shark shark = new Shark(posX_random, posY_random, 3, this);
-                this.agents.add(shark);
+            // create a shark, put it the grid, and referenced it the lists of agents
+            else if ( (fishOrShark == 1) && (nbShark_count > 0) ) {
+                agent = new Shark(posX, posY, 3, this);
+                this.agents.add(agent);
+                this.grid[posX][posY] = agent;
                 nbShark_count--;
             }
-       
         }
-        
-
     }
-
 }
 
 class NumberOfAgentsExceedSizeException extends Exception {

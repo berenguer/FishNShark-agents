@@ -19,6 +19,9 @@ public class Shark extends Agent {
         
     }
     
+    @Override
+    public String toString() {
+        return "S";
+    }
     
-
 }
