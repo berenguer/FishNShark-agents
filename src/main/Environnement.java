@@ -3,6 +3,7 @@ package main;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Random;
 
 public class Environnement {
     
@@ -42,13 +43,35 @@ public class Environnement {
         }
     }
     
+    public void doIt() {
+        // remember all agents with new references for the next turns of the party
+        ArrayList<Agent> nextTurn = new ArrayList<Agent>(this.agents);
+        this.agents.remove(0);
+        Random random = new Random();
+        //System.out.println(random.nextInt(this.agents.size()) - 2);
+        /*
+        while (this.agents.size() > 0) {
+            Agent agent = this.agents.get(random.nextInt(this.agents.size()) - 1);
+            int[] newPosition = findAvailablePosition(agent.getPosX(),  agent.getPosY());
+            if (newPosition != null) { // the agent is able to move in an other box
+                // update the agent localisation values
+                agent.setPosX(newPosition[0]);
+                agent.setPosY(newPosition[1]);
+                // move the agent in the grid
+                this.grid[agent.getPosX()][agent.getPosY()] = agent;
+                // clear old position
+                this.grid[agent.getPosX()][agent.getPosY()] = null;
+            }
+        }
+        */
+    }
+    
     /**
-     * Find random a free position (without any agent) into the grid.
+     * Find a random free position (without any agent) into the grid.
      * @return
      */
     public int[] findAvailablePosition() {
         int[] result = new int[2];
-        
         // find random X and Y positions
         int posX_random = (int)Math.round(Math.random() * ( this.grid.length-1 ));
         int posY_random = (int)Math.round(Math.random() * ( this.grid.length-1 ));
@@ -69,6 +92,39 @@ public class Environnement {
         }
         return null;
     }
+    
+
+    /*
+    public int[] findAvailablePosition(int posX, int posY) {
+        if (this.grid.length > 1 | this.grid[0].length > 1) {
+            int[] result = new int[2];
+            // values will be randomised
+            int randomX = -666;
+            int randomY = -666;
+            Random random = new Random();
+
+            ArrayList<ArrayList<E>> positionSets = new ArrayList<ArrayList<E>>();
+            positionSets.add(new int[0, 0]);
+            // a box in a grid is surrounded at least by 8 boxes
+            int maximumAttempts = 8;
+            while (maximumAttempts > 0) {
+                // a random number between [-1, 1]
+                randomX = (random.nextInt(3)) - 1;
+                randomY = (random.nextInt(3)) - 1;
+                if ( ((posX + randomX) >= 0) && ((posX + randomX) < this.grid.length)
+                    & ((posY + randomY) >= 0) && ((posY + randomY) < this.grid[0].length)) {
+                        if (this.grid[posX + randomX][posY + randomY] == null) {
+                            result[0] = posX + randomX;
+                            result[1] = posY + randomY;
+                            return result;
+                        }
+                    }
+                maximumAttempts--;
+            }
+        }
+        return null;
+    }
+    */
     
     public void initiateGrid() {
         int nbFish_count = nbFish;
