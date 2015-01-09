@@ -2,33 +2,27 @@ package main;
 
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Random;
 
 public class Main {
     
     public static void main(String[] args) {
         try {
-            Environnement env = new Environnement(3, 4, 4);
+            Environnement env = new Environnement(6, 3, 2);
             env.initiateGrid();
             
             Collections.shuffle(env.agents);
             System.out.println("Number of agents : "+ env.agents.size());
             System.out.println("Size of the grid : "+ env.grid.length + " x " + env.grid.length);
+            System.out.println(env.toString());
             
-            // A SUPPRIMER !!
-            env.grid[1][1] = null;
-            
-            for (int i = 0; i < env.grid.length; i++) {
-                System.out.println();
-                for (int j = 0; j <env.grid[i].length; j++) {
-                    System.out.print(env.grid[i][j] + "\t");
-                }
-                
+            // run party
+            int turns = 6;
+            for (int i = turns; i > 0; i--) {
+                env.doIt();
+                System.out.println(env.toString());
             }
             
-            // position around
-            //int[] freePositionAround = env.findAvailablePosition(1,  1);
-            //System.out.println("\nPosition around x: " + freePositionAround[0] + " y: " + freePositionAround[1]);
-            //env.doIt();
         } catch (NumberOfAgentsExceedSizeException e) {
             e.printStackTrace();
         }
