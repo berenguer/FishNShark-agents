@@ -1,4 +1,4 @@
-package main;
+package model;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
@@ -6,7 +6,12 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Random;
 
-public class Environnement {
+import view.Observer;
+import model.agent.Agent;
+import model.agent.Fish;
+import model.agent.Shark;
+
+public class Environnement implements Observable {
     
     public Agent[][] grid;
     
@@ -17,6 +22,8 @@ public class Environnement {
     public int tour;
     
     public ArrayList<Agent> agents;
+    
+    public ArrayList<Observer> observers;
 
     public Environnement(int size, int nbFish, int nbShark) throws NumberOfAgentsExceedSizeException {
         super();
@@ -39,6 +46,7 @@ public class Environnement {
                 this.tour = 0;
                 this.agents = new ArrayList<Agent>(nbFish + nbShark);
             }
+            this.observers = new ArrayList<Observer>();
         }
         catch(NumberOfAgentsExceedSizeException ex) {
              System.err.println("Too much fishs for this grid !");
@@ -55,10 +63,14 @@ public class Environnement {
         //System.out.println(random.nextInt(this.agents.size()) - 2);
 
         for (int i = 0; i < this.agents.size(); i++) {
-            System.out.println("Agent at "+String.valueOf(this.agents.get(i).getPosX()) + " : " + String.valueOf(this.agents.get(i).getPosY()));
+            System.out.println("Agent at "+String.valueOf(this.agents.get(i).getPosX()+1) + " : " + String.valueOf(this.agents.get(i).getPosY()+1));
             this.agents.get(i).action();
+            notifyObserver();
         }
-        
+        updateAgentsList();
+    }
+    
+    public void updateAgentsList() {
         // update agents collections (births, dead)
         this.agents.clear();
         for (int x = 0; x < this.grid.length; x++) {
@@ -68,6 +80,17 @@ public class Environnement {
                         this.agents.add(this.grid[x][y]);
                     }
                 }
+            }
+        }
+    }
+    
+    public void removeAgent(int posX, int posY) {
+        this.grid[posX][posY] = null;
+        for (int a = 0; a < this.agents.size(); a++) {
+            if ((this.agents.get(a).getPosX() == posX) & (this.agents.get(a).getPosY() == posY)) {
+                this.agents.remove(a);
+                System.out.println("===========> " +posX+ " : " +posY );
+                this.grid[posX][posY] = null;
             }
         }
     }
@@ -212,17 +235,22 @@ public class Environnement {
         }
         return res;
     }
+
+    @Override
+    public void attach(Observer observeur) {
+        this.observers.add(observeur);
+    }
+
+    @Override
+    public void remove(Observer observer) {
+        this.observers.remove(observer);
+    }
+
+    @Override
+    public void notifyObserver() {
+        for (Observer observer : this.observers) {
+            observer.update();
+        }
+    }
     
-}
-
-class NumberOfAgentsExceedSizeException extends Exception {
-
-    // parameterless Constructor
-    public NumberOfAgentsExceedSizeException() {
-    }
-
-    // constructor that accepts a message
-    public NumberOfAgentsExceedSizeException(String message) {
-        super(message);
-    }
 }

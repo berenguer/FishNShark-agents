@@ -1,9 +1,11 @@
-package main;
+package model.agent;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Random;
+
+import model.Environnement;
 
 public class Shark extends Agent {
 
@@ -69,16 +71,22 @@ public class Shark extends Agent {
     }
 
     public void eat() {
+        // eating restore the life
         this.deathDecount = this.deathClassDelay;
         this.birthDecount--;
         // selected a random fish around the box
         ArrayList<int[]> fishPositions = this.env.search(this.posX, this.posY, Fish.class);
         Random random = new Random();
-        int[] fishPosition = fishPositions.get(random.nextInt(fishPositions.size()));
+        int[] eatenFishPosition = fishPositions.get(random.nextInt(fishPositions.size()));
         // delete eaten fish
-        this.env.grid[fishPosition[0]][fishPosition[1]] = null;
-        // move the shark to the position of the fish
-        this.env.grid[fishPosition[0]][fishPosition[1]] = this;
+        this.env.removeAgent(eatenFishPosition[0], eatenFishPosition[1]);
+        // remove this from the grid
+        this.env.grid[this.posX][this.posY] = null;
+        // set positions to the eaten fish
+        this.posX = eatenFishPosition[0];
+        this.posY = eatenFishPosition[1];
+        // update the grid with the new position
+        this.env.grid[eatenFishPosition[0]][eatenFishPosition[1]] = this;
     }
     
     public void move() {

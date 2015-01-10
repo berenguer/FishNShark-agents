@@ -1,7 +1,9 @@
-package main;
+package model.agent;
 
 import java.util.ArrayList;
 import java.util.Random;
+
+import model.Environnement;
 
 public abstract class Agent {
     

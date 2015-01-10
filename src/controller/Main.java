@@ -1,8 +1,11 @@
-package main;
+package controller;
 
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Random;
+
+import model.Environnement;
+import model.NumberOfAgentsExceedSizeException;
 
 public class Main {
     
@@ -10,6 +13,8 @@ public class Main {
         try {
             Environnement env = new Environnement(6, 3, 2);
             env.initiateGrid();
+            
+            view.MainFrame.launch();
             
             Collections.shuffle(env.agents);
             System.out.println("Number of agents : "+ env.agents.size());
