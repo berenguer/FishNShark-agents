@@ -1,45 +1,57 @@
 package view;
 
-import java.awt.EventQueue;
 import java.awt.GridBagLayout;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
-import javax.swing.JTable;
-import javax.swing.table.AbstractTableModel;
-import javax.swing.table.TableModel;
+import javax.swing.JPanel;
 
-public class MainFrame extends JFrame {
+import model.Environnement;
 
-    public MainFrame() {
+public class MainFrame extends JFrame implements Observer {
+    
+    public Environnement environnement;
+    
+    public JPanel gridPanel;
+
+    public MainFrame(Environnement environnement) {       
+        // private variables
+        this.environnement = environnement;
         setTitle("Multi-agents");
         setSize(300, 200);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
+        // set layout
         GridBagLayout gbLayout = new GridBagLayout();
         getContentPane().setLayout(gbLayout);
-        
-        TableModel dataModel = new AbstractTableModel() {
-            public int getColumnCount() { return 10; }
-            public int getRowCount() { return 10;}
-            public Object getValueAt(int row, int col) { return new Integer(row*col); }
-        };
-        JTable table = new JTable(dataModel);
-        this.add(table);
+        // components
+        this.gridPanel = new GridPanel(this.environnement.getGrid());
+        this.add(gridPanel);
         
         JButton runButton = new JButton("Run");
-        this.add(runButton);
-    }
-
-    public static void launch() {
-
-        // ensure that all UI updates are concurrency-safe
-        EventQueue.invokeLater(new Runnable() {
+        /*
+        int count=0;
+        runButton.addActionListener(new ActionListener() {
             @Override
-            public void run() {
-                MainFrame ex = new MainFrame();
-                ex.setVisible(true);
+            public void actionPerformed(ActionEvent e) {
+                count++;
             }
         });
+        */
+        this.add(runButton);
+        // listeners
+        //...
+        
+        // validate container and subcomponents
+        validate();
+    }
+
+    @Override
+    public void update() {
+        remove(this.gridPanel);
+        this.gridPanel = new GridPanel(this.environnement.getGrid());
+        add(this.gridPanel);
+        repaint();
+        validate();
     }
 }

@@ -1,39 +1,45 @@
 package controller;
 
-import java.util.Arrays;
+import java.awt.EventQueue;
 import java.util.Collections;
-import java.util.Random;
+import java.util.Timer;
 
+import view.MainFrame;
 import model.Environnement;
-import model.NumberOfAgentsExceedSizeException;
 
 public class Main {
-    
+
     public static void main(String[] args) {
-        try {
-            Environnement env = new Environnement(6, 3, 2);
-            env.initiateGrid();
-            
-            view.MainFrame.launch();
-            
-            Collections.shuffle(env.agents);
-            System.out.println("Number of agents : "+ env.agents.size());
-            System.out.println("Size of the grid : "+ env.grid.length + " x " + env.grid.length);
-            System.out.println(env.toString());
-            
-            // run party
-            int turns = 6;
-            for (int i = turns; i > 0; i--) {
-                env.doIt();
-                System.out.println(env.toString());
+
+        EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                try {
+                    // initiate model
+                    Environnement env = new Environnement(6, 3, 2);
+                    env.initiateGrid();
+
+                    // initiate view
+                    MainFrame view = new MainFrame(env);
+                    
+                    // attach view as observer of the model
+                    env.attach(view);
+                    view.setVisible(true);
+                    Collections.shuffle(env.agents);
+                    
+                    System.out.println("Number of agents : "
+                            + env.agents.size());
+                    System.out.println("Size of the grid : " + env.grid.length
+                            + " x " + env.grid.length);
+                    System.out.println(env.toString());
+
+                    env.doIt();
+                    System.out.println(env.toString());
+                    
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
-            
-        } catch (NumberOfAgentsExceedSizeException e) {
-            e.printStackTrace();
-        }
+        });
 
     }
-    
-    
-
 }

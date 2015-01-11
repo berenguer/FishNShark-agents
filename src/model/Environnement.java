@@ -14,7 +14,7 @@ import model.agent.Shark;
 public class Environnement implements Observable {
     
     public Agent[][] grid;
-    
+
     public int nbFish;
     
     public int nbShark;
@@ -219,6 +219,14 @@ public class Environnement implements Observable {
                 nbShark_count--;
             }
         }
+    }
+    
+    public Agent[][] getGrid() {
+        return grid;
+    }
+
+    public void setGrid(Agent[][] grid) {
+        this.grid = grid;
     }
     
     /**
