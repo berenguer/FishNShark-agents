@@ -39,20 +39,19 @@ public class Shark extends Agent {
 
     @Override
     public void action() {
-        System.out.println(" death decount = "+this.deathDecount);
         if (this.deathDecount == 0) {
             this.env.grid[this.posX][this.posY] = null;
-            System.out.println("Shark.action() --> death");
+            //System.out.println("Shark.action() --> death");
         } else {
             if ((birthDecount == 0) & (this.env.search(this.posX, this.posY, null).size() > 0)) {
                 birth();
-                System.out.println("Shark.action() --> birth");
+                //System.out.println("Shark.action() --> birth");
             } else if (this.env.search(this.posX, this.posY, Fish.class).size() > 0) {
                 eat();
-                System.out.println("Shark.action() --> eat");
+                //System.out.println("Shark.action() --> eat");
             } else if (this.env.search(this.posX, this.posY, null).size() > 0) {
                 move();
-                System.out.println("Shark.action() --> move");
+                //System.out.println("Shark.action() --> move");
             }
         }
     }    

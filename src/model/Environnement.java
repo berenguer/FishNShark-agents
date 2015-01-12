@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Random;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import view.Observer;
 import model.agent.Agent;
@@ -54,6 +56,25 @@ public class Environnement implements Observable {
     }
     
     /**
+     * Play the party during 500 turns.
+     */
+    public void run() {
+        TimerTask run = new TimerTask()
+        {
+            @Override
+            public void run() 
+            {
+                doIt();
+            }   
+        };
+        
+        Timer timer = new Timer();
+        timer.scheduleAtFixedRate(run, 0, 1000);
+        
+        
+    }
+    
+    /**
      * Play one iteration/turn of the system.
      */
     public void doIt() {
@@ -63,7 +84,7 @@ public class Environnement implements Observable {
         //System.out.println(random.nextInt(this.agents.size()) - 2);
 
         for (int i = 0; i < this.agents.size(); i++) {
-            System.out.println("Agent at "+String.valueOf(this.agents.get(i).getPosX()+1) + " : " + String.valueOf(this.agents.get(i).getPosY()+1));
+            //System.out.println("Agent at "+String.valueOf(this.agents.get(i).getPosX()+1) + " : " + String.valueOf(this.agents.get(i).getPosY()+1));
             this.agents.get(i).action();
             notifyObserver();
         }

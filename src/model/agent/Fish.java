@@ -25,13 +25,12 @@ public class Fish extends Agent {
 
     @Override
     public void action() {
-        System.out.println("birth decount "+this.birthDecount);
         if ((birthDecount == 0) & (this.env.search(this.posX, this.posY, null).size() > 0)) {
             birth();
-            System.out.println("Fish.action() --> birth");
+            //System.out.println("Fish.action() --> birth");
         } else if (this.env.search(this.posX, this.posY, null).size() > 0) {
             move();
-            System.out.println("Fish.action() --> move");
+            //System.out.println("Fish.action() --> move");
         }
     }
     

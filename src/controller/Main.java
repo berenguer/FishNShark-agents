@@ -15,7 +15,7 @@ public class Main {
             public void run() {
                 try {
                     // initiate model
-                    Environnement env = new Environnement(6, 3, 2);
+                    Environnement env = new Environnement(16, 4, 6);
                     env.initiateGrid();
 
                     // initiate view
@@ -32,8 +32,7 @@ public class Main {
                             + " x " + env.grid.length);
                     System.out.println(env.toString());
 
-                    env.doIt();
-                    System.out.println(env.toString());
+                    
                     
                 } catch (Exception e) {
                     e.printStackTrace();
