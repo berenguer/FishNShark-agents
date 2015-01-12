@@ -43,6 +43,7 @@ public class Shark extends Agent {
             this.env.grid[this.posX][this.posY] = null;
             //System.out.println("Shark.action() --> death");
         } else {
+            this.age++;
             if ((birthDecount == 0) & (this.env.search(this.posX, this.posY, null).size() > 0)) {
                 birth();
                 //System.out.println("Shark.action() --> birth");

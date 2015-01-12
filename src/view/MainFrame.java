@@ -54,9 +54,7 @@ public class MainFrame extends JFrame implements Observer {
         c.gridy = 1;
         add(this.gridPanel, c);  
         JButton runButton = new JButton("Run");
-        JButton nextButton = new JButton("next");
-        c.gridx = 1;
-        c.gridy = 1;
+        JButton nextButton = new JButton("Next");
 
         runButton.addActionListener(new ActionListener() {
 
@@ -73,6 +71,7 @@ public class MainFrame extends JFrame implements Observer {
                 MainFrame.this.environnement.doIt();
             }
         });
+        
         c.gridx = 2;
         c.gridy = 1;
         this.add(runButton, c);

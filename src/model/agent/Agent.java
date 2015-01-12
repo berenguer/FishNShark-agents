@@ -10,6 +10,8 @@ public abstract class Agent {
     public int posX;
     
     public int posY;
+    
+    public int age;
 
     /**
      * Environnement contains every agents.
@@ -21,6 +23,7 @@ public abstract class Agent {
         super();
         this.posX = posX;
         this.posY = posY;
+        this.age = 0;
         this.env = env;
     }
 

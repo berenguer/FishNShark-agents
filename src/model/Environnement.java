@@ -26,6 +26,10 @@ public class Environnement implements Observable {
     public ArrayList<Agent> agents;
     
     public ArrayList<Observer> observers;
+    
+    public TimerTask runTimerTask;
+    
+    public Timer timer;
 
     public Environnement(int size, int nbFish, int nbShark) throws NumberOfAgentsExceedSizeException {
         super();
@@ -48,6 +52,14 @@ public class Environnement implements Observable {
                 this.tour = 0;
                 this.agents = new ArrayList<Agent>(nbFish + nbShark);
             }
+
+            this.runTimerTask = new TimerTask() {
+                
+                @Override public void run() {
+                    doIt();
+                }
+            };
+            this.timer = new Timer();
             this.observers = new ArrayList<Observer>();
         }
         catch(NumberOfAgentsExceedSizeException ex) {
@@ -56,17 +68,10 @@ public class Environnement implements Observable {
     }
     
     /**
-     * Play the party during 500 turns.
+     * Play the party.
      */
     public void run() {
-        TimerTask run = new TimerTask() {
-            
-            @Override public void run() {
-                doIt();
-            }
-        };
-        Timer timer = new Timer();
-        timer.scheduleAtFixedRate(run, 0, 1);
+        this.timer.scheduleAtFixedRate(this.runTimerTask, 0, 1);
     }
    
     /**
@@ -82,18 +87,34 @@ public class Environnement implements Observable {
         for (int i = 0; i < this.agents.size(); i++) {
             //System.out.println("Agent at "+String.valueOf(this.agents.get(i).getPosX()+1) + " : " + String.valueOf(this.agents.get(i).getPosY()+1));
             this.agents.get(i).action();
-            notifyObserver();
         }
+        notifyObserver();
         updateAgentsList();
+        // ----------------- stats -----------------
+        // outputs are used to build graph 'n statistics
+        // 1 a curve of the number of fish over time (a second one respectively for Sharks)
+        System.out.println(this.nbFish + "\t" + this.nbShark);
+        // 2 age structure
+        // 3 number of fish / number of sharks (goal an ellipse)
+
+        
+        
     }
     
     public void updateAgentsList() {
         // update agents collections (births, dead)
         this.agents.clear();
+        this.nbFish = 0;
+        this.nbShark = 0;
         for (int x = 0; x < this.grid.length; x++) {
             for (int y = 0; y < this.grid[x].length; y++) {
                 if (this.grid[x][y] != null) {
                     if (this.grid[x][y].getClass().getSuperclass().equals(Agent.class)) {
+                        if (this.grid[x][y].getClass() == Fish.class) {
+                            this.nbFish++;
+                        } else {
+                            this.nbShark++;
+                        }
                         this.agents.add(this.grid[x][y]);
                     }
                 }
