@@ -1,8 +1,5 @@
 package model.agent;
 
-import java.util.ArrayList;
-import java.util.Random;
-
 import model.Environnement;
 
 public abstract class Agent {
@@ -49,6 +46,14 @@ public abstract class Agent {
 
     public void setPosY(int posY) {
         this.posY = posY;
+    }
+    
+    public int getAge() {
+        return age;
+    }
+
+    public void setAge(int age) {
+        this.age = age;
     }
     
     public abstract void action();

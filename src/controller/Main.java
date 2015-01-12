@@ -1,8 +1,6 @@
 package controller;
 
 import java.awt.EventQueue;
-import java.util.Collections;
-import java.util.Timer;
 
 import view.MainFrame;
 import model.Environnement;
@@ -15,8 +13,8 @@ public class Main {
             public void run() {
                 try {
                     // initiate model
-                    //Environnement env = new Environnement(80, 600, 500);
-                    Environnement env = new Environnement(10, 40, 20);
+                    Environnement env = new Environnement(100, 600, 600);
+                    //Environnement env = new Environnement(10, 40, 20);
                     env.initiateGrid();
 
                     // initiate view

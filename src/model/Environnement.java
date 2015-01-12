@@ -30,6 +30,10 @@ public class Environnement implements Observable {
     public TimerTask runTimerTask;
     
     public Timer timer;
+    
+    public double averageFishAge;
+    
+    public double averageSharkAge;
 
     public Environnement(int size, int nbFish, int nbShark) throws NumberOfAgentsExceedSizeException {
         super();
@@ -50,6 +54,8 @@ public class Environnement implements Observable {
                 this.nbFish = nbFish;
                 this.nbShark = nbShark;
                 this.tour = 0;
+                this.averageFishAge = 0;
+                this.averageSharkAge = 0;
                 this.agents = new ArrayList<Agent>(nbFish + nbShark);
             }
 
@@ -93,8 +99,11 @@ public class Environnement implements Observable {
         // ----------------- stats -----------------
         // outputs are used to build graph 'n statistics
         // 1 a curve of the number of fish over time (a second one respectively for Sharks)
-        System.out.println(this.nbFish + "\t" + this.nbShark);
+        //System.out.println(this.nbFish + "\t" + this.nbShark);
+        
         // 2 age structure
+        //System.out.println(this.averageFishAge + "\t" + this.averageSharkAge);
+        
         // 3 number of fish / number of sharks (goal an ellipse)
 
         
@@ -112,13 +121,22 @@ public class Environnement implements Observable {
                     if (this.grid[x][y].getClass().getSuperclass().equals(Agent.class)) {
                         if (this.grid[x][y].getClass() == Fish.class) {
                             this.nbFish++;
+                            this.averageFishAge = this.averageFishAge + this.grid[x][y].getAge();
                         } else {
                             this.nbShark++;
+                            this.averageSharkAge = this.averageSharkAge + this.grid[x][y].getAge();
                         }
                         this.agents.add(this.grid[x][y]);
                     }
                 }
             }
+        }
+        
+        if (this.nbFish != 0) {
+            this.averageFishAge = this.averageFishAge / this.nbFish;
+        }
+        if (this.nbShark != 0) {
+            this.averageSharkAge = this.averageSharkAge / this.nbShark;
         }
     }
     
@@ -248,7 +266,7 @@ public class Environnement implements Observable {
                 this.grid[posX][posY] = agent;
                 nbFish_count--;
             }
-            // create a shark, put it the grid, and referenced it in the list of agents
+            // create a shark, put it in the grid, and referenced it in the list of agents
             else if ( (fishOrShark == 1) && (nbShark_count > 0) ) {
                 agent = new Shark(posX, posY, 3, 3, this);
                 this.agents.add(agent);
