@@ -15,7 +15,7 @@ public class Main {
             public void run() {
                 try {
                     // initiate model
-                    Environnement env = new Environnement(16, 4, 6);
+                    Environnement env = new Environnement(30, 50, 50);
                     env.initiateGrid();
 
                     // initiate view

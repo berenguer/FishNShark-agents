@@ -1,5 +1,6 @@
 package view;
 
+import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Container;
 import java.awt.GridBagConstraints;
@@ -15,7 +16,9 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
+import javax.swing.JTable;
 import javax.swing.KeyStroke;
+import javax.swing.border.Border;
 
 import controller.Main;
 import model.Environnement;
@@ -26,7 +29,13 @@ public class MainFrame extends JFrame implements Observer {
     
     public Environnement environnement;
     
+    public Agent[][] grid;
+    
     public JPanel gridPanel;
+    
+    public JButton runButton;
+    
+    public JButton nextButton;
 
     public MainFrame(Environnement environnement) {       
         // private variables
@@ -43,8 +52,7 @@ public class MainFrame extends JFrame implements Observer {
         this.gridPanel = new GridPanel(this.environnement.getGrid());
         c.gridx = 0;
         c.gridy = 1;
-        add(this.gridPanel, c);
-        
+        add(this.gridPanel, c);  
         JButton runButton = new JButton("Run");
         JButton nextButton = new JButton("next");
         c.gridx = 1;
@@ -54,8 +62,7 @@ public class MainFrame extends JFrame implements Observer {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                //nextButton.setEnabled(false);
-                environnementRun();
+                MainFrame.this.environnement.run();
             }
         });
         
@@ -63,7 +70,7 @@ public class MainFrame extends JFrame implements Observer {
                         
             @Override
             public void actionPerformed(ActionEvent e) {
-                environnementDoIt();
+                MainFrame.this.environnement.doIt();
             }
         });
         c.gridx = 2;
@@ -80,19 +87,11 @@ public class MainFrame extends JFrame implements Observer {
         pack();
         setVisible(true);
     }
-    
-    public void environnementRun() {
-        this.environnement.run();
-    }
-    
-    public void environnementDoIt() {
-        this.environnement.doIt();
-    }
 
     @Override
     public void update() {
         remove(this.gridPanel);
-        // !!!!!!!!!! ne pas faire une nouvelle grille mais updater les composants
+        // to improve : refresh only one JLabel        
         this.gridPanel = new GridPanel(this.environnement.getGrid());
         GridBagConstraints c = new GridBagConstraints();
         c.gridx = 0;

@@ -59,28 +59,24 @@ public class Environnement implements Observable {
      * Play the party during 500 turns.
      */
     public void run() {
-        TimerTask run = new TimerTask()
-        {
-            @Override
-            public void run() 
-            {
+        TimerTask run = new TimerTask() {
+            
+            @Override public void run() {
                 doIt();
-            }   
+            }
         };
-        
         Timer timer = new Timer();
-        timer.scheduleAtFixedRate(run, 0, 1000);
-        
-        
+        timer.scheduleAtFixedRate(run, 0, 1);
     }
-    
+   
     /**
      * Play one iteration/turn of the system.
      */
     public void doIt() {
         // order of agents in the turn is random
-        Collections.shuffle(this.agents);
-        Random random = new Random();
+        Collections.shuffle(Environnement.this.agents);
+        
+        //Random random = new Random();
         //System.out.println(random.nextInt(this.agents.size()) - 2);
 
         for (int i = 0; i < this.agents.size(); i++) {
@@ -110,7 +106,6 @@ public class Environnement implements Observable {
         for (int a = 0; a < this.agents.size(); a++) {
             if ((this.agents.get(a).getPosX() == posX) & (this.agents.get(a).getPosY() == posY)) {
                 this.agents.remove(a);
-                System.out.println("===========> " +posX+ " : " +posY );
                 this.grid[posX][posY] = null;
             }
         }
