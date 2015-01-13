@@ -37,7 +37,7 @@ Le bouton "Next" permet de faire seulement une seule itération du jeu.
 ## Configuration de la partie
 
 Dans le controller.Main il faut créer un :
-Envirronnement(taille de la grille, nombre de poisson, nombre de requins)
+**Envirronnement(taille de la grille, nombre de poisson, nombre de requins)**
 
 Dans Envirronnement il est possible de paramétrer le nombre de vie des poissons, ou le delais nécessaire pour accoucher d'un nouvel agent.
 Lorsque l'Envirronnement est crée le constructeur fait appel à la méthode Envirronnement.initiateGrid().
