@@ -4,6 +4,7 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -34,6 +35,8 @@ public class Environnement implements Observable {
     public double averageFishAge;
     
     public double averageSharkAge;
+    
+    public int turn = 0;
 
     public Environnement(int size, int nbFish, int nbShark) throws NumberOfAgentsExceedSizeException {
         super();
@@ -84,6 +87,7 @@ public class Environnement implements Observable {
      * Play one iteration/turn of the system.
      */
     public void doIt() {
+        turn++;
         // order of agents in the turn is random
         Collections.shuffle(Environnement.this.agents);
         
@@ -105,7 +109,20 @@ public class Environnement implements Observable {
         //System.out.println(this.averageFishAge + "\t" + this.averageSharkAge);
         
         // 3 number of fish / number of sharks (goal an ellipse)
-
+        //System.out.println(this.nbFish + "\t" + this.nbShark + "\t" + this.nbFish / this.nbShark);
+        
+        // 4 number of shark for each age
+        /*
+        HashMap hm = new HashMap();
+        for (int a = 0; a < this.agents.size(); a++) {
+            if (!hm.containsKey(this.agents.get(a).getAge())) {
+                hm.put(this.agents.get(a).getAge(), 1);
+            } else {
+                hm.put(this.agents.get(a).getAge(), Integer.parseInt(hm.get(this.agents.get(a).getAge()).toString()) + 1);
+            }
+        }
+        System.out.println(hm.toString());
+        */
         
         
     }

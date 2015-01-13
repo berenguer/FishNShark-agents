@@ -13,7 +13,7 @@ public class Main {
             public void run() {
                 try {
                     // initiate model
-                    Environnement env = new Environnement(100, 600, 600);
+                    Environnement env = new Environnement(50, 100, 150);
                     //Environnement env = new Environnement(10, 40, 20);
                     env.initiateGrid();
 
