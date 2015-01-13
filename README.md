@@ -53,18 +53,31 @@ Shark(int posX, int posY, int birthClassDelay, int deathClassDelay, Environnemen
 ## Architecture
 
 ├── controller
+
 │   └── Main.java
+
 ├── model
+
 │   ├── agent
+
 │   │   ├── Agent.java
+
 │   │   ├── Fish.java
+
 │   │   └── Shark.java
+
 │   ├── Environnement.java
+
 │   ├── NumberOfAgentsExceedSizeException.java
+
 │   └── Observable.java
+
 └── view
+
     ├── GridPanel.java
+    
     ├── MainFrame.java
+    
     └── Observer.java
     
 ## Implémentation
